@@ -1,30 +1,87 @@
-# React + TypeScript + Vite
+# Tund: Web App para Agendar Citas en Negocios
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Descripción
 
-Currently, two official plugins are available:
+Tund es una aplicación web desarrollada con React y TypeScript que permite a los usuarios ver negocios registrados en un mapa y agendar citas de manera sencilla. La aplicación utiliza Leaflet para la visualización de mapas y Bootstrap para el diseño de componentes.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Funcionalidades
 
-## Expanding the ESLint configuration
+- Visualización de negocios en un mapa interactivo.
+- Geolocalización para centrar el mapa en la ubicación del usuario.
+- Selección de negocios para ver detalles y opciones de agendar citas.
+- Interfaz responsiva adaptada para dispositivos móviles.
+- Agendar citas con selección de horarios disponibles.
+- Animación de confirmación al agendar una cita.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Tecnologías Utilizadas
 
-- Configure the top-level `parserOptions` property like this:
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Leaflet](https://leafletjs.com/)
+- [React-Leaflet](https://react-leaflet.js.org/)
+- [Bootstrap](https://getbootstrap.com/)
+- [React-Bootstrap](https://react-bootstrap.github.io/)
+- [react-spring](https://www.react-spring.io/)
+- [use-gesture](https://use-gesture.netlify.app/)
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## Instalación
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Para correr este proyecto localmente, sigue estos pasos:
+
+1. Clona el repositorio:
+
+   ```sh
+   git clone https://github.com/tu-usuario/tund.git
+   cd tund
+   ```
+
+2. Instala las dependencias:
+
+   ```sh
+   npm install
+   ```
+
+3. Corre la aplicación:
+   ```sh
+   npm start
+   ```
+
+La aplicación estará disponible en `http://localhost:3000`.
+
+## Uso
+
+### Visualización de Negocios
+
+1. Al abrir la aplicación, el mapa se centrará en la ubicación del usuario.
+2. Los negocios registrados aparecerán como marcadores en el mapa.
+3. Al hacer clic en un marcador, se desplegará un menú con los detalles del negocio y opciones adicionales.
+
+### Agendar una Cita
+
+1. Selecciona un negocio del mapa.
+2. En el menú desplegable, haz clic en "Agendar Cita".
+3. Selecciona un día y una hora disponible.
+4. Haz clic en "Agendar Cita" para confirmar.
+
+### Diseño Responsivo
+
+- La aplicación se adapta a diferentes tamaños de pantalla, proporcionando una experiencia de usuario optimizada tanto en dispositivos móviles como en escritorio.
+
+## Contribuciones
+
+Las contribuciones son bienvenidas. Por favor, sigue estos pasos para contribuir:
+
+1. Haz un fork del repositorio.
+2. Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
+3. Realiza los cambios necesarios y haz commit (`git commit -m 'Añadir nueva funcionalidad'`).
+4. Haz push a la rama (`git push origin feature/nueva-funcionalidad`).
+5. Abre un Pull Request.
+
+## Licencia
+
+Este proyecto es completamente de codigo abierto.
+
+## Contacto
+
+Autor: [Edson Gael Garcia Martínez](https://github.com/Gatogordo03)
+Correo: [Gatogordo Contact](mailto:gatogordo.contact@gmail.com)
