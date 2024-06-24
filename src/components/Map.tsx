@@ -8,9 +8,8 @@ import SetViewOnClick from "./SetViewOnClick";
 import BottomMenu from "./BottomMenu";
 import CenterMap from "./CenterMap";
 import BottomSheet from "./BottomSheet";
-import { Business } from "./Business";
+import { Business, businesses } from "./Business";
 import "bootstrap/dist/css/bootstrap.min.css";
-import './BottomMenu.css';
 
 const businessIcon = new L.Icon({
   iconUrl: "https://leafletjs.com/examples/custom-icons/leaf-orange.png",
@@ -22,27 +21,15 @@ const businessIcon = new L.Icon({
   shadowAnchor: [4, 62],
 });
 
-const businesses: Business[] = [
-  {
-    id: 1,
-    name: "Cafetería Ejemplo",
-    lat: 19.39611111,
-    lng: -99.09194444,
-    address: "123 Calle Principal, Ciudad Ejemplo",
-  },
-  {
-    id: 2,
-    name: "Restaurante Ejemplo",
-    lat: 19.23501111,
-    lng: -99.05142444,
-    address: "456 Calle Principal, Ciudad Ejemplo",
-  }
-  // Seguir agregando negocios de prueba
-];
-
-const isMobile = () => {
-  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-};
+const userLocationIcon = new L.Icon({
+  iconUrl: "https://leafletjs.com/examples/custom-icons/leaf-green.png",
+  iconSize: [38, 95],
+  iconAnchor: [22, 94],
+  popupAnchor: [-3, -76],
+  shadowUrl: "https://leafletjs.com/examples/custom-icons/leaf-shadow.png",
+  shadowSize: [50, 64],
+  shadowAnchor: [4, 62],
+});
 
 const Map: React.FC = () => {
   const [userLocation, setUserLocation] = useState<[number, number] | null>(
@@ -51,8 +38,8 @@ const Map: React.FC = () => {
   const [selectedBusiness, setSelectedBusiness] = useState<Business | null>(
     null
   );
+  const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
 
-  
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -69,47 +56,71 @@ const Map: React.FC = () => {
   const handleMapClick = () => {
     console.log("Map clicked");
     setSelectedBusiness(null);
+    setBottomSheetOpen(false);
   };
 
   const handleBusinessSelect = (business: Business) => {
     setSelectedBusiness(business);
+    setBottomSheetOpen(true);
+  };
+
+  const handleBottomSheetToggle = (isOpen: boolean) => {
+    setBottomSheetOpen(isOpen);
+  };
+
+  const handleExpand = () => {
+    setBottomSheetOpen(true);
   };
 
   return (
-    <div style={{ position: 'relative', height: '100vh', width: '100%' }}>
-      <MapContainer 
-        center={userLocation || [19.39611111, -99.09194444]} 
-        zoom={13} 
-        style={{ height: '100%', width: '100%' }}
-        zoomControl={!isMobile()}  // Desactivar el control de zoom si es móvil
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
-        {userLocation && <SetViewOnClick coords={userLocation} />}
-        <MapEventHandler onMapClick={handleMapClick} />
-        {selectedBusiness && <CenterMap coords={[selectedBusiness.lat, selectedBusiness.lng]} />}
-        {businesses.map(business => (
-          <Marker 
-            key={business.id} 
-            position={[business.lat, business.lng]} 
-            icon={businessIcon} 
-            eventHandlers={{ click: () => handleBusinessSelect(business) }}
+    <div style={{ position: "relative", height: "100vh", width: "100%" }}>
+      <div style={{ height: "85vh", position: "relative" }}>
+        <MapContainer
+          center={userLocation || [19.39611111, -99.09194444]}
+          zoom={13}
+          style={{ height: "100%", width: "100%" }}
+          zoomControl={false} // Quitar el control de zoom
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
-        ))}
-      </MapContainer>
-      <BottomSheet height={400}>
+          {userLocation && <SetViewOnClick coords={userLocation} />}
+          {userLocation && (
+            <Marker position={userLocation} icon={userLocationIcon} />
+          )}
+          <MapEventHandler onMapClick={handleMapClick} />
+          {selectedBusiness && (
+            <CenterMap coords={[selectedBusiness.lat, selectedBusiness.lng]} />
+          )}
+          {businesses.map((business) => (
+            <Marker
+              key={business.id}
+              position={[business.lat, business.lng]}
+              icon={businessIcon}
+              eventHandlers={{ click: () => handleBusinessSelect(business) }}
+            />
+          ))}
+        </MapContainer>
+      </div>
+      <BottomSheet
+        initialHeight={150}
+        midHeight={window.innerHeight * 0.5}
+        expandedHeight={window.innerHeight}
+        isOpen={bottomSheetOpen}
+        onToggle={handleBottomSheetToggle}
+      >
         {selectedBusiness ? (
           <AMenu
             business={selectedBusiness}
-            onClose={() => setSelectedBusiness(null)}
+            onClose={() => {
+              setSelectedBusiness(null);
+              setBottomSheetOpen(false);
+            }}
+            onExpand={handleExpand}
           />
         ) : (
-          <BottomMenu 
-            businesses={businesses} 
-            onSelect={handleBusinessSelect} 
-          />
+          <BottomMenu businesses={businesses} onSelect={handleBusinessSelect} />
         )}
       </BottomSheet>
     </div>

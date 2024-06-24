@@ -1,0 +1,11 @@
+.amenu {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.amenu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
